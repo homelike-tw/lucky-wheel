@@ -147,17 +147,24 @@ const spin = () => {
 const easeOut = (t) => 1 - Math.pow(1 - t, 3);
 
 onMounted(() => {
+   // 讓初始轉盤就對準「現折300元」
+  const targetIndex = options.indexOf('現折300元');
+  const totalAngle = 2 * Math.PI;
+  const arc = totalAngle / options.length;
+  const pointerOffset = (3 * Math.PI) / 2;
+
+  // 指針要對準的角度
+  angle = totalAngle - (targetIndex * arc) - arc / 2 + pointerOffset;
   drawWheel();
 });
 </script>
 
 <style scoped>
 .wheel-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f2f2f2;
+  position: relative;
+  width: 100%;
+  max-width: 1366px;
+  margin: 0 auto;
 }
 .canvas-wrapper {
   position: relative;
@@ -167,6 +174,7 @@ onMounted(() => {
   background-size: cover;
   background-position: center;
 }
+
 canvas {
   position: absolute;
   top: 52%;
