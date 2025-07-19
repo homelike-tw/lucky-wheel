@@ -28,7 +28,7 @@ const options = [
   '現折1500元',
   '現折2000元'
 ];
-const colors = ['#ffffff', '#aaaaaa'];  
+const colors = ['#ffffff', '#9E9B97'];  
 
 
 let angle = 0;
@@ -57,7 +57,7 @@ const drawWheel = () => {
     ctx.translate(centerX, centerY);
     ctx.rotate(startAngle + arc / 2);
     ctx.textAlign = 'right';
-    ctx.fillStyle = colors[i % 2] === '#aaaaaa' ? '#fff' : '#000';
+    ctx.fillStyle = colors[i % 2] === '#9E9B97' ? '#fff' : '#000';
     ctx.font = 'bold 38px sans-serif';
     ctx.fillText(options[i], radius - 10, 10);
     ctx.restore();
@@ -124,20 +124,27 @@ const spin = () => {
     if (progress < duration) {
       requestAnimationFrame(animate);
     } else {
-      Swal.fire({
+    Swal.fire({
         title: 'Homelike 喜家居',
-          html: `
-          <p style="font-size: 20px;">🎉 恭喜您 !！</p>
-           <p style="font-size: 30px; font-weight: bold; color: #b22222;">
-            ${options[targetIndex]}
-          </p>
+        html: `
+          <div style="text-align: center;">
+            <p style="font-size: 60px; margin: 0;">🎉 恭喜您 !！🎉</p>
+            <p class="swal-golden-text">${options[targetIndex]}</p>
+          </div>
         `,
         icon: 'success',
         confirmButtonText: '太棒了！',
-        confirmButtonColor: '#d4af37'
+        confirmButtonColor: '#d4af37',
+        width: 1000,
+        customClass: {
+           title: 'custom-swal-title',
+          popup: 'custom-swal-popup'
+        }
       }).then(() => {
         spinning = false;
       });
+
+
     }
   };
 
@@ -159,7 +166,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style>
 .wheel-container {
   position: relative;
   width: 100%;
@@ -170,11 +177,10 @@ onMounted(() => {
   position: relative;
   width: 1365px;
   height: 768px;
-  background-image: url('@/assets/BG.jpg');
+  background-image: url('@/assets/newBG.jpg');
   background-size: cover;
   background-position: center;
 }
-
 canvas {
   position: absolute;
   top: 52%;
@@ -187,11 +193,43 @@ canvas {
 .pointer1 {
   position: absolute;
   top: calc(52% - 340px);
-  left: 58%;              /* ✅ 與 canvas 一樣，才能水平對齊 */
+  left: 58%;
   transform: translateX(-50%);
   width: 60px;
   height: 120px;
   pointer-events: none;
 }
-
+/* SweetAlert2 樣式 (必須用全域) */
+.custom-swal-popup {
+  padding: 40px;
+  text-align: center;
+}
+.swal-golden-text {
+  font-size: 100px;
+  font-weight: bold;
+   background: linear-gradient(
+    90deg,
+    #FFD700,
+    #FFA500,
+    #FF4500,
+    #FFA500,
+    #FFD700
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s linear infinite;
+  margin: 20px 0;
+}
+/* 漸層流動 */
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+.custom-swal-title {
+  font-size: 60px;      /* 調大標題字體 */
+  font-weight: bold;    /* 加粗 */
+  color: #d4af37;       /* 金色 */
+  margin-bottom: 20px;
+}
 </style>
