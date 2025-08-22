@@ -7,14 +7,14 @@
         height="600"
         @click="handleCanvasClick"
       ></canvas>
-      <img class="pointer1" :src="pointerImg" alt="pointer1" />
+      <img class="pointer2" :src="pointerImg" alt="pointer2" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import pointerImg from '@/assets/pointer1.png';
+import pointerImg from '@/assets/pointer2.png';
 import Swal from 'sweetalert2';
 
 const wheelCanvas = ref(null);
@@ -28,7 +28,7 @@ const options = [
   '現折1500元',
   '現折2000元'
 ];
-const colors = ['#ffffff', '#9E9B97'];  
+const colors = ['#ffffff', '#889CBB'];  
 
 
 let angle = 0;
@@ -57,27 +57,27 @@ const drawWheel = () => {
     ctx.translate(centerX, centerY);
     ctx.rotate(startAngle + arc / 2);
     ctx.textAlign = 'right';
-    ctx.fillStyle = colors[i % 2] === '#9E9B97' ? '#fff' : '#000';
+    // 設定文字顏色：灰底（奇數）→ 白字；白底（偶數）→ 深藍字
+    ctx.fillStyle = i % 2 === 1 ? '#ffffff' : '#0f3049';
     ctx.font = 'bold 38px sans-serif';
     ctx.fillText(options[i], radius - 10, 10);
     ctx.restore();
   }
 
-  // GO 金色圓圈
+  // START 藍色圓圈
   const gradient = ctx.createRadialGradient(centerX, centerY, 10, centerX, centerY, 30);
   gradient.addColorStop(0, '#fff9db');
-  gradient.addColorStop(1, '#d4af37');
-
+  gradient.addColorStop(1, '#0f3049');
+  // START 按鈕區塊 - 使用深藍色實心圓
   ctx.beginPath();
-  ctx.fillStyle = gradient;
+  ctx.fillStyle = '#0f3049'; // 深藍色，不用 gradient
   ctx.arc(centerX, centerY, 45, 0, 2 * Math.PI);
   ctx.fill();
-  
-  ctx.fillStyle = '#000';
-  ctx.font = 'bold 30px Arial Rounded MT Bold';
-  
+  // START按鈕文字
+  ctx.fillStyle = '#ffffff'; // 白字
+  ctx.font = 'bold 25px Arial Rounded MT Bold';
   ctx.textAlign = 'center';
-  ctx.fillText('GO!', centerX, centerY + 8);
+  ctx.fillText('START', centerX, centerY + 8);
 };
 
 const handleCanvasClick = (e) => {
@@ -128,7 +128,7 @@ const spin = () => {
         title: 'Homelike 喜家居',
         html: `
           <div style="text-align: center;">
-            <p style="font-size: 60px; margin: 0;">🎉 恭喜您 !！🎉</p>
+            <p style="font-size: 60px; margin: 0;">🎉 恭喜您 🎉</p>
             <p class="swal-golden-text">${options[targetIndex]}</p>
           </div>
         `,
@@ -184,20 +184,21 @@ onMounted(() => {
 canvas {
   position: absolute;
   top: 52%;
-  left: 58%;
+  left: 59%;
   transform: translate(-50%, -50%);
   width: 600px;
   height: 600px;
   border-radius: 50%;
 }
-.pointer1 {
+.pointer2 {
   position: absolute;
-  top: calc(52% - 340px);
-  left: 58%;
+  top: calc(52% - 350px); /* 可微調，目的是讓指針底部靠近圓盤上邊緣 */
+  left: 59%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 120px;
+  width: 50px;   /* 調小才不會壓到轉盤 */
+  height: auto;  /* 保持原圖比例 */
   pointer-events: none;
+  z-index: 10;
 }
 /* SweetAlert2 樣式 (必須用全域) */
 .custom-swal-popup {
@@ -228,8 +229,7 @@ canvas {
 }
 .custom-swal-title {
   font-size: 60px;      /* 調大標題字體 */
-  font-weight: bold;    /* 加粗 */
-  color: #d4af37;       /* 金色 */
+  font-weight: bold;    /* 加粗 */    
   margin-bottom: 20px;
 }
 </style>
