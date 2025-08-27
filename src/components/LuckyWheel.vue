@@ -103,7 +103,7 @@ const spin = () => {
 
   const validIndexes = options
     .map((opt, idx) => ({ opt, idx }))
-    .filter(item => item.opt !== '現折1500元' && item.opt !== '現折2000元')
+    .filter(item => item.opt !== '現折300元' && item.opt !== '現折2000元')
     .map(item => item.idx);
 
   const totalAngle = 2 * Math.PI;
@@ -128,7 +128,7 @@ const spin = () => {
         title: 'Homelike 喜家居',
         html: `
           <div style="text-align: center;">
-            <p style="font-size: 60px; margin: 0;">🎉 恭喜您 🎉</p>
+            <p style="font-size: 60px; margin: 0;">🎁 恭喜您 🎁</p>
             <p class="swal-golden-text">${options[targetIndex]}</p>
           </div>
         `,
@@ -210,11 +210,11 @@ canvas {
   font-weight: bold;
    background: linear-gradient(
     90deg,
-    #FFD700,
-    #FFA500,
-    #FF4500,
-    #FFA500,
-    #FFD700
+    #89CFF0,   /* 淺藍 */
+    #4682B4,   /* 鋼藍 */
+    #0f3049,   /* 深藍 */
+    #4682B4,
+    #89CFF0
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
