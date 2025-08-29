@@ -128,7 +128,7 @@ const spin = () => {
         title: 'Homelike 喜家居',
         html: `
           <div style="text-align: center;">
-            <p style="font-size: 60px; margin: 0;">🎁 恭喜您 🎁</p>
+            <p style="font-size: 60px; margin: 0;  color: red;">🎁 恭喜您 🎁</p>
             <p class="swal-golden-text">${options[targetIndex]}</p>
           </div>
         `,
